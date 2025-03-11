@@ -1,0 +1,21 @@
+esphome:
+  name: my_esp_device
+  platform: ESP32
+  board: esp32dev
+
+# Manually include the custom component
+external_components:
+  - source: "custom_components/ads1110_sensor.h"
+
+sensor:
+  - platform: custom
+    lambda: |-
+      auto ads1110_sensor = new ADS1110Sensor();
+      App.register_component(ads1110_sensor);
+      return {ads1110_sensor};
+
+    sensors:
+      name: "ADS1110 Voltage"
+      unit_of_measurement: "V"
+      accuracy_decimals: 3
+      update_interval: 1s
